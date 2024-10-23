@@ -4,3 +4,6 @@
 [submodule "py-verus-node-rpc"]
 	path = py-verus-node-rpc
 	url = https://github.com/imylomylo/py-verus-node-rpc
+[submodule "automation"]
+	path = automation
+	url = https://github.com/imylomylo/automation.git
