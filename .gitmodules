@@ -1,3 +1,6 @@
 [submodule "verusd"]
 	path = verusd
 	url = https://github.com/imylomylo/verusd
+[submodule "py-verus-node-rpc"]
+	path = py-verus-node-rpc
+	url = https://github.com/imylomylo/py-verus-node-rpc
