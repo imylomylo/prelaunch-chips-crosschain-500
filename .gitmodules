@@ -1,0 +1,3 @@
+[submodule "verusd"]
+	path = verusd
+	url = https://github.com/imylomylo/verusd
