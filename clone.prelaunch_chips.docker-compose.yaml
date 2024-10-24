@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  verusd.chips_XX_CLONE_XX:
+    hostname: verusd.chips
+    container_name: verusd.chips_XX_CLONE_XX
+    image: verustrading/verusd:0.1
+    command: verusd -chain=chips -testnet
+    ports:
+      - "${VERUSD_PRELAUNCH_CHIPS_P2P_PORT}"
+      - "${VERUSD_PRELAUNCH_CHIPS_RPC_PORT}"
+    volumes:
+      - /home/${USER}/.zcash-params:/root/.zcash-params:ro
+      - ./data_dir:/root/.verus/pbaas/
+    networks:
+      - vrsctest_prelaunch_chips
+          ipv4_address: ${VERUSD_PRELAUNCH_CHIPS_IPV4_ADDR}
+    logging:
+      driver: "json-file"
+    stop_grace_period: 2m
+
+networks:
+  vrsctest_prelaunch_chips:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.enable_icc: "true"
+    internal: true
+    ipam:
+      config:
+        - subnet: ${DOCKER_PRELAUNCH_CHIPS_500_NETWORK_SUBNET}
+

@@ -1,0 +1,1 @@
+docker-compose -f vrsctest.docker-compose.yaml up 

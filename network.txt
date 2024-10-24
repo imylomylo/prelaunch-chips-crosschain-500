@@ -1,0 +1,2 @@
+network=prelaunch_chips
+last_created=directory

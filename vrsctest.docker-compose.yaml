@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  verusd.vrsctest:
+    hostname: verusd.vrsctest
+    container_name: verusd.vrsctest
+    image: verustrading/verusd:0.1
+    command: verusd -chain=vrsctest -testnet 
+    ports:
+      - ${VERUSD_VRSCTEST_P2P_PORT}
+      - ${VERUSD_VRSCTEST_RPC_PORT}
+    volumes:
+      - /home/${USER}/.zcash-params:/root/.zcash-params:ro
+      - ./data_dir_vrsctest:/root/.komodo/vrsctest
+    networks:
+      vrsctest_prelaunch_chips:
+          ipv4_address: ${VERUSD_VRSCTEST_IPV4_ADDR}
+    logging:
+      driver: "json-file"
+    stop_grace_period: 2m
+
+networks:
+  vrsctest_prelaunch_chips:
+    ipam:
+      driver: default
+      config:
+        - subnet: ${DOCKER_PRELAUNCH_CHIPS_500_NETWORK_SUBNET}
+
