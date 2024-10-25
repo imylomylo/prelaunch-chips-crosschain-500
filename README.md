@@ -12,19 +12,28 @@ cd verusd
 cd $START
 
 
+screen -dmS vrsctest bash -c "./verusd.vrsctest.start ; exec bash"
+
+OR manually
 screen -S vrsctest
 ./verusd.vrsctest.start
 <ctrl> + <a>, <d>
 
 ...wait for vrsctest to sync
+sudo tail -f data_dir_vrsctest/debug.log
 ./verusd.vrsctest.stop
 
 sudo ln -sf data_dir_vrsctest/vrsctest.conf vrsctest.conf
 echo "rpcallowip=172.77.0.0/24" | sudo tee -a vrsctest.conf
+echo "rpchost=172.77.0.7" | sudo tee -a vrsctest.conf
 
 screen -r vrsctest
 ./verusd.vrsctest.start
 <ctrl> + <a>, <d>
+
+wait til sync
+sudo tail -f data_dir_vrsctest/debug.log
+
 ```
 
 # participate

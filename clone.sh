@@ -52,6 +52,7 @@ do
 	mkdir $INSTANCE/data_dir
 	cp clone.prelaunch_chips.docker-compose.yaml $INSTANCE/docker-compose.yaml
 	cp clone.prelaunch_chips.env $INSTANCE/.env
+	ln -s -t $INSTANCE ../vrsctest.conf
 	THIS_CLONE_PUBKEY=$(cat list.json | jq -r ".[$i][1]")
         THIS_CLONE_WIF=$(cat list.json | jq -r ".[$i][2]")
         THIS_CLONE_RADDRESS=$(cat list.json | jq -r ".[$i][3]")
@@ -62,6 +63,8 @@ do
         sed -i "s/XX_THIS_NODE_PUBKEY_XX/$THIS_CLONE_PUBKEY/g" $INSTANCE/.env
         sed -i "s/XX_THIS_NODE_WIF_XX/$THIS_CLONE_WIF/g" $INSTANCE/.env
         sed -i "s/XX_THIS_NODE_RADDRESS_XX/$THIS_CLONE_RADDRESS/g" $INSTANCE/.env
+	screen -dmS $INSTANCE bash -c "cd $INSTANCE; docker-compose --project-name $INSTANCE up; exec bash"
+
 
     else
     	echo "Try higher value, adding 1 to $CLONES"

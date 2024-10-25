@@ -7,7 +7,7 @@ services:
     command: verusd -chain=vrsctest -testnet 
     ports:
       - ${VERUSD_VRSCTEST_P2P_PORT}
-      - ${VERUSD_VRSCTEST_RPC_PORT}
+      - ${VERUSD_VRSCTEST_RPC_PORT}:${VERUSD_VRSCTEST_RPC_PORT}
     volumes:
       - /home/${USER}/.zcash-params:/root/.zcash-params:ro
       - ./data_dir_vrsctest:/root/.komodo/vrsctest

@@ -9,22 +9,21 @@ services:
       - "${VERUSD_PRELAUNCH_CHIPS_P2P_PORT}"
       - "${VERUSD_PRELAUNCH_CHIPS_RPC_PORT}"
     volumes:
+      - ./data_dir:/root/.verustest/pbaas/c1eeedeffdb8be0150af4873155b2b88a9146e0d
+      - ./vrsctest.conf:/root/.komodo/vrsctest/vrsctest.conf
       - /home/${USER}/.zcash-params:/root/.zcash-params:ro
-      - ./data_dir:/root/.verus/pbaas/
     networks:
-      - vrsctest_prelaunch_chips
-          ipv4_address: ${VERUSD_PRELAUNCH_CHIPS_IPV4_ADDR}
+      vrsctest_prelaunch_chips:
+        ipv4_address: ${VERUSD_PRELAUNCH_CHIPS_IPV4_ADDR}
     logging:
       driver: "json-file"
     stop_grace_period: 2m
 
 networks:
   vrsctest_prelaunch_chips:
-    driver: bridge
-    driver_opts:
-      com.docker.network.bridge.enable_icc: "true"
-    internal: true
+    name: prelaunch-chips-crosschain-500_vrsctest_prelaunch_chips
+    external: true
     ipam:
+      driver: default
       config:
         - subnet: ${DOCKER_PRELAUNCH_CHIPS_500_NETWORK_SUBNET}
-
