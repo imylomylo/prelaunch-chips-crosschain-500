@@ -1,7 +1,11 @@
+import os
 import docker
 from concurrent.futures import ThreadPoolExecutor
 import time
 from py_verus_node_rpc.verus_node_rpc import NodeRpc
+from dotenv import load_dotenv
+load_dotenv(verbose=True)
+THIS_NODE_RADDRESS = str(os.environ['THIS_NODE_RADDRESS'])
 
 verusd_rpc_user="loveischange"
 verusd_rpc_password="changeisgood"
@@ -14,21 +18,46 @@ client = docker.from_env()
 def get_mapped_ports():
     container_ports = {}
     for container in client.containers.list():
-        if container.name.startswith("instance-"):
+        print(container.name)
+        if container.name.startswith("verusd.chips_"):
             ports = container.attrs['NetworkSettings']['Ports']
             for port, bindings in ports.items():
-                if bindings:
-                    container_ports[container.name] = bindings[0]['HostPort']
+                # print(bindings)
+                # Check if port 12122/tcp is mapped and has bindings
+                if port == "12122/tcp" and bindings:
+                    host_port = bindings[0]['HostPort']
+                    container_ports[container.name] = host_port
+                    #print(f"{host_port} -> {port}")
+
     return container_ports
 
 # Step 3: Define the task function using RPCClient
 def execute_command(container_name, port, executor, future_results):
+    print(f"{verusd_rpc_user}:{verusd_rpc_password}@{verusd_rpc_host}:{port}")
     verusd = NodeRpc(verusd_rpc_user, verusd_rpc_password, port, verusd_rpc_host)
 
+    from_address="*"
+    to_address="RLDmncLM7jom8PrMro5jofGzx3geejFSRh"
+    export_to="vrsctest"
+    currency="CHIPS"
+    amount=0.0777
+    tx_params = {}
+    tx_params["address"] = to_address
+    tx_params["currency"] = currency
+    tx_params["amount"] = amount
+    tx_params["exportto"] = export_to
     # Execute the initial command
-    result = verusd.get_info()
+    #result = verusd.get_info()
+    #print(result)
+    print(from_address)
+    print([tx_params])
+    result = verusd.send_currency(from_address, [tx_params])
+    #result = verusd.get_wallet_info()
+    #result = verusd.get_balance()
+    #result = verusd.get_utxos(THIS_NODE_RADDRESS)
     future_results[container_name].append(result)
-    print(f"{container_name} getinfo(): {result}")
+    result = verusd.z_get_operation_status(result)
+    print(f"{container_name} send_currency(): {result}")
 
     # Determine if another command is needed
 #    next_command = determine_next_command(result)
@@ -53,10 +82,11 @@ def control_containers():
     container_ports = get_mapped_ports()
     future_results = {name: [] for name in container_ports}
 
-    with ThreadPoolExecutor(max_workers=12) as executor:
+    with ThreadPoolExecutor(max_workers=8) as executor:
         # Submit initial commands
-        for container_name, port in container_ports.items():
-            executor.submit(execute_command, container_name, port, executor, future_results)
+        for i in range(55):
+            for container_name, port in container_ports.items():
+                executor.submit(execute_command, container_name, port, executor, future_results)
 
 # Run control function
 if __name__ == "__main__":
