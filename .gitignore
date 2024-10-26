@@ -1,0 +1,5 @@
+instance-*
+list*.json
+vrsctest.conf
+.env
+data_dir_vrsctest

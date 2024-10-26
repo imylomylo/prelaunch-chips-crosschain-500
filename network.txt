@@ -1,2 +1,4 @@
 network=prelaunch_chips
 last_created=directory
+initial_funding=RLDmncLM7jom8PrMro5jofGzx3geejFSRh
+daemon_cli="verus -chain=chips -testnet"

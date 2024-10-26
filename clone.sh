@@ -54,9 +54,11 @@ do
 	# TODO link the sending tx code project
 	# ln -sf -t $INSTANCE ./blast-helper-crosschain-prelaunch-chips
 	mkdir $INSTANCE/data_dir
+	cp ./helpers/c1eeedeffdb8be0150af4873155b2b88a9146e0d.conf $INSTANCE/data_dir/
 	cp clone.prelaunch_chips.docker-compose.yaml $INSTANCE/docker-compose.yaml
 	cp clone.prelaunch_chips.env $INSTANCE/.env
 	ln -s -t $INSTANCE ../vrsctest.conf
+	ln -s -t $INSTANCE  ../helpers/this_node_import_wif.cmd
 	THIS_CLONE_PUBKEY=$(cat list.json | jq -r ".[$i][1]")
         THIS_CLONE_WIF=$(cat list.json | jq -r ".[$i][2]")
         THIS_CLONE_RADDRESS=$(cat list.json | jq -r ".[$i][3]")
