@@ -34,6 +34,9 @@ screen -r vrsctest
 wait til sync
 sudo tail -f data_dir_vrsctest/debug.log
 
+
+get a list.json file in place
+./clone.sh <num chips instances>
 ```
 
 # participate

@@ -64,6 +64,8 @@ do
         sed -i "s/XX_THIS_NODE_WIF_XX/$THIS_CLONE_WIF/g" $INSTANCE/.env
         sed -i "s/XX_THIS_NODE_RADDRESS_XX/$THIS_CLONE_RADDRESS/g" $INSTANCE/.env
 	screen -dmS $INSTANCE bash -c "cd $INSTANCE; docker-compose --project-name $INSTANCE up; exec bash"
+	echo "sleep for 5s"
+	sleep 5
 
 
     else
@@ -71,6 +73,6 @@ do
 	CLONES=$((CLONES + 1))
 	echo "CLONES to try starting bumped up by 1, is now $CLONES"
 	echo "Next try will be $((CLONE + i + 1))"
-	sleep 1
+	sleep 0.2
     fi
 done
