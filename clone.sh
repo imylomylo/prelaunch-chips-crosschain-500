@@ -8,7 +8,11 @@ ln -sf list.${network}.json list.json
 funder=100
 echo "Getting the last index of list.json for FUNDER_NODE_RADDRESS"
 FUNDER_RADDRESS=$(cat list.json | jq -r ".[$funder][3]")
+FUNDER_WIF=$(cat list.json | jq -r ".[$funder][2]")
 FUNDER_PUBKEY=$(cat list.json | jq -r ".[$funder][1]")
+sed -i "s/XX_THIS_NODE_PUBKEY_XX/$FUNDER_PUBKEY/g" .env
+sed -i "s/XX_THIS_NODE_WIF_XX/$FUNDER_WIF/g" .env
+sed -i "s/XX_THIS_NODE_RADDRESS_XX/$FUNDER_RADDRESS/g" .env
 echo "Funder raddress is: ${FUNDER_RADDRESS}"
 echo "Funder  pubkey is: ${FUNDER_PUBKEY}"
 sleep 1
@@ -72,7 +76,7 @@ do
     	echo "Try higher value, adding 1 to $CLONES"
 	CLONES=$((CLONES + 1))
 	echo "CLONES to try starting bumped up by 1, is now $CLONES"
-	echo "Next try will be $((CLONE + i + 1))"
+	echo "Next try will be $((CLONE + 1))"
 	sleep 0.2
     fi
 done
