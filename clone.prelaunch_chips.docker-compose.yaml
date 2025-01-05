@@ -4,12 +4,12 @@ services:
     hostname: verusd.chips
     container_name: verusd.chips_XX_CLONE_XX
     image: verustrading/verusd:0.1
-    command: verusd -chain=chips -testnet
+    command: verusd -chain=chips777 -testnet
     ports:
       - "${VERUSD_PRELAUNCH_CHIPS_P2P_PORT}"
       - "${VERUSD_PRELAUNCH_CHIPS_RPC_PORT}"
     volumes:
-      - ./data_dir:/root/.verustest/pbaas/c1eeedeffdb8be0150af4873155b2b88a9146e0d
+      - ./data_dir:/root/.verustest/pbaas/f42319bc427f4633d987bae4ebfdaeda41a56517
       - ./vrsctest.conf:/root/.komodo/vrsctest/vrsctest.conf
       - /home/${USER}/.zcash-params:/root/.zcash-params:ro
     networks:

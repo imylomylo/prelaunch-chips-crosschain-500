@@ -54,7 +54,15 @@ do
 	# TODO link the sending tx code project
 	# ln -sf -t $INSTANCE ./blast-helper-crosschain-prelaunch-chips
 	mkdir $INSTANCE/data_dir
-	cp ./helpers/c1eeedeffdb8be0150af4873155b2b88a9146e0d.conf $INSTANCE/data_dir/
+	if [ -f "chips777.bootstrap.tar" ]; then
+		echo "Using bootstrap"
+		sleep 1
+		cd $INSTANCE/data_dir
+		tar xvf ../../chips777.bootstrap.tar.gz
+		cd $START
+	fi
+	# deprecated cp ./helpers/c1eeedeffdb8be0150af4873155b2b88a9146e0d.conf $INSTANCE/data_dir/
+	cp ./helpers/f42319bc427f4633d987bae4ebfdaeda41a56517.conf $INSTANCE/data_dir/
 	cp clone.prelaunch_chips.docker-compose.yaml $INSTANCE/docker-compose.yaml
 	cp clone.prelaunch_chips.env $INSTANCE/.env
 	ln -s -t $INSTANCE ../vrsctest.conf

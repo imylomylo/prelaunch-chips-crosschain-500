@@ -5,3 +5,5 @@ vrsctest.conf
 data_dir_vrsctest
 venv
 requirements.txt
+*.bootstrap.tar
+*.bootstrap.tar.gz
