@@ -7,3 +7,6 @@
 [submodule "automation"]
 	path = automation
 	url = https://github.com/imylomylo/automation.git
+[submodule "rust_verusd_rpc_server"]
+	path = rust_verusd_rpc_server
+	url = https://github.com/imylomylo/rust_verusd_rpc_server
